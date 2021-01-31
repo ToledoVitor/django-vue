@@ -1,39 +1,28 @@
 <template>
-  <html>
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="style.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-    </head>
-    <body>
-      <section>
-        <header>
-          <h2><a href="#" class="logo" style="color: rgb(25, 118, 210)">Sport.se</a></h2>
-          <div class="navigation">
-            <a href="#" onclick="location.href = '';">Home</a>
-            <a href="#" onclick="location.href = 'quemsomos';">Sobre</a>
-            <a href="#" onclick="location.href = 'jogos';">Jogos</a>
-            <a href="#" onclick="location.href = 'busca';">Busque os Jogos</a>
-            <a href="#" onclick="location.href = 'login';">Login</a>
-          </div>
-        </header>
-        <div class="content">
-          <div style="background-color: transparent !important;" class="info">
-            <h2>Encontre seu Jogo.<br><span style="color: #1976d2">Comece Agora!</span></h2>
-            <p>Estamos desde 2021 juntando pessoas que querem jogar com pessoas que não tem com quem jogar. Entre agora para a comunidade do Sport.se e começe a jogar também!</p>
-            <a href="#" class="info-btn" onclick="location.href = 'quemsomos';">Ler Mais</a>
-          </div>
-        </div>
-        <div class="media-icons">
-          <a href="#"><i class="fab fa-facebook-f" style="color: white" onclick="window.location.replace(&quot;https://www.facebook.com&quot;);" /></a>
-          <a href="#"><i class="fab fa-twitter" style="color: white" onclick="window.location.replace(&quot;https://www.twitter.com&quot;);" /></a>
-          <a href="#"><i class="fab fa-instagram" style="color: white" onclick="window.location.replace(&quot;https://www.instagram.com&quot;);" /></a>
-        </div>
-      </section>
-    </body>
-  </html>
+  <v-layout class="layout">
+    <div class="content">
+      <div style="background-color: transparent !important;" class="info">
+        <h2>Encontre seu Jogo.<br><span style="color: #1976d2">Comece Agora!</span></h2>
+        <p>Estamos desde 2021 juntando pessoas que querem jogar com pessoas que não tem com quem jogar. Entre agora para a comunidade do Esport.se e começe a jogar também!</p>
+        <a href="#" class="info-btn" onclick="location.href = 'jogos';">Bora Jogar!</a>
+      </div>
+    </div>
+    <div class="media-icons">
+      <a href="#"><i class="fab fa-facebook-f" style="color: white" onclick="window.location.replace(&quot;https://www.facebook.com&quot;);" /></a>
+      <a href="#"><i class="fab fa-twitter" style="color: white" onclick="window.location.replace(&quot;https://www.twitter.com&quot;);" /></a>
+      <a href="#"><i class="fab fa-instagram" style="color: white" onclick="window.location.replace(&quot;https://www.instagram.com&quot;);" /></a>
+    </div>
+  </v-layout>
 </template>
+
+<script>
+export default {
+  data () {
+    return {}
+  },
+  layout: 'complex'
+}
+</script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
@@ -43,36 +32,7 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-section{
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  background: url(../static/bg.jpg)no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-header{
-  position: relative;
-  top: 0;
-  width: 100%;
-  padding: 30px 100px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-header .logo{
-  position: relative;
-  color: rgb(38, 0, 255);
-  font-size: 30px;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-header .navigation a{
+a{
   color: rgb(255, 255, 255);
   text-decoration: none;
   font-weight: 500;
@@ -193,21 +153,6 @@ label{
     margin-right: 0;
     margin-bottom: 50px;
     letter-spacing: 2px;
-  }
-  #check:checked ~ header label .menu-btn{
-    display: none;
-  }
-  #check:checked ~ header label .close-btn{
-    z-index: 2;
-    display: block;
-    position: fixed;
-  }
-  label .menu-btn{
-    position: absolute;
-  }
-  header .logo{
-    position: absolute;
-    bottom: -6px;
   }
   .content .info h2{
     font-size: 45px;

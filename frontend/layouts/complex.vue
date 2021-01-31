@@ -10,13 +10,13 @@
       <body>
         <section>
           <header>
-            <h2><a href="#" class="logo" style="color: rgb(25, 118, 210)">Sport.se</a></h2>
+            <h2><a href="#" class="logo" style="color: #19B3D3" onclick="location.href = '/';">Esport.se</a></h2>
             <div class="navigation">
               <a href="#" onclick="location.href = '/';">Home</a>
-              <a href="#" onclick="location.href = 'quemsomos';">Sobre</a>
-              <a href="#" onclick="location.href = 'jogos';">Jogos</a>
-              <a href="#" onclick="location.href = 'busca';">Busque os Jogos</a>
-              <a href="#" onclick="location.href = 'login';">Login</a>
+              <a href="#" onclick="location.href = '/quemsomos';">Sobre</a>
+              <a href="#" onclick="location.href = '/jogos';">Jogos</a>
+              <a href="#" onclick="location.href = '/busca';">Busque os Jogos</a>
+              <a href="#" onclick="location.href = '/login';">Login</a>
             </div>
           </header>
           <v-content>
@@ -33,6 +33,7 @@
 
 <script>
 import footer from '~/components/footer.vue'
+
 export default {
   components: {
     leFooter: footer
@@ -242,4 +243,31 @@ label{
     font-size: 14px;
   }
 }
+@media (max-width: 1060px){
+  header .btn{
+    display: block;
+  }
+  header .menu{
+    position: fixed;
+    background: #1483D5;
+    flex-direction: column;
+    min-width: 400px;
+    height: 100vh;
+    top: 0;
+    right: -100%;
+    padding: 80px 50px;
+    transition: 0.5s;
+    transition-property: right;
+  }
+  header .menu.active{
+    right: 0;
+  }
+  header .menu a{
+    display: block;
+    font-size: 20px;
+    margin: 20px;
+    padding: 0 15px;
+  }
+}
+
 </style>

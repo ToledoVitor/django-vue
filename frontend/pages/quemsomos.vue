@@ -4,7 +4,7 @@
       <div class="content">
         <div style="background-color: transparent !important;" class="info">
           <h2 style="color: #1976d2">Quem somos?</h2>
-          <p> Nós da Sporte.se somos um exército de um homem só de desenvolvedores que tentam solucionar um problema real, a falta de pessoas para jogar.</p>
+          <p> Nós da Esporte.se somos um exército de um homem só de desenvolvedores que tentam solucionar um problema real, a falta de pessoas para jogar.</p>
           <p> A idéia do site é que cada pessoa possa criar um perfil e com isso criar jogos, ou participar de jogos que outros usuários criaram. Assim, nós esperamos que você consiga finalmente organizar aquele futebol de quarta-feira que sempre quis, ou aquele basquete no sábado cedo, e isso sem nem precisar conhecer todas as pessoas que precisaria.</p>
           <p> Ou seja, você só cria uma conta e decide o que quer jogar e quando quer jogar. E se não tiver o jogo? É só criar, tudo isso em menos de um minuto.</p>
           <p> E o melhor de tudo, sabe quanto você paga por isso? Nada, é tudo de graça.</p>

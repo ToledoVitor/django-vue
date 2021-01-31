@@ -1,23 +1,42 @@
 <template>
-  <body>
+  <v-layout class="layout">
     <div class="padrao">
-      <h1 class="titulo">Bem vindo ao perfil do usuário <span>{{username}}!</span></h1>
+      <h1 class="titulo">Bem vindo ao perfil do usuário</h1>
+      <h1 class="titulo"><span>{{username}}!</span></h1>
       <v-spacer />
-      <h3 class="subtitulo">Confira os jogos criados por {{username}}:</h3>
-      <!-- <v-for jogo in jogos :key="jogo">
-          <v-if jogo.criador = "username">Nenhum jogo criado pelo usuário</v-if> -->
-      <v-if jogos="">
-        <h3 class="subtitulo">Nenhum jogo criado pelo usuário</h3>
-      </v-if>
+      <h2 class="subtitulo">Confira os jogos criados por <span>{{username}}</span>:</h2>
+      <v-flex d-flex :items="items" class="lista">
+        <v-flex md4 v-for="jogo in user_jogos" :key="jogo" class="container">
+          <v-card class="card-container mx-auto" width="100%">
+            <v-img class="white--text align-end" height="200px" :src="jogo.imagem">
+              <v-card-title>{{jogo.esporte}}</v-card-title>
+            </v-img>
+            <v-card-subtitle class="pb-0">{{jogo.criador}}</v-card-subtitle>
+            <v-card-text class="text--primary">
+              <div>Jogo {{jogo.dia}} as {{jogo.horas}}</div>
+              <div>{{jogo.descricao}}</div>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn color="orange" text>Participe</v-btn>
+              <v-btn color="orange" text>Compartilhe</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-flex>
     </div>
-  </body>
+  </v-layout>
 </template>
 
 <script>
+import AppApi from '~api'
+
 export default {
+  components: {
+  },
   data () {
     return {
-      jogos: ''
+      items: [],
+      user_jogos: []
     }
   },
   asyncData (context) {
@@ -25,28 +44,50 @@ export default {
     return {
       username
     }
-    //     return Promise.all(
-    //     })
-    //       username: context.params.username
-    //     }
-  }
+  },
+  created () {
+    AppApi.list_jogos().then(response => {
+      this.items = response
+      let counter = 0
+      for (counter = 0; counter < this.items.length; counter++) {
+        if (this.items[counter].criador === this.username) { this.user_jogos.push(this.items[counter]) }
+      }
+      // if (this.user_jogos.length > 0) {
+      //   let counter_2 = 0
+      //   for (counter_2 = 0; counter_2 < this.user_jogos.length; counter_2++) {
+      //     const pic = this.user_jogos[counter_2].image
+      //     this.user_jogos[counter_2].image = '/static/' + pic
+      //   }
+      // }
+      return {}
+    })
+  },
+  layout: 'complex'
 }
 </script>
 
 <style>
-  .padrao{
-    margin-top: 60px;
-    margin-left: 60px;
-  }
   .titulo{
     display: flex;
     justify-content: center;
-    margin: 20px;
+    margin: 0px;
   }
   .titulo span{
     color: #19B3D3;
   }
   .subtitulo{
-    margin: 10px;
+    margin: 30px;
+    text-size-adjust: auto;
+  }
+  .lista{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 35%;
+    margin: 5px;
+  }
+  .container{
+    padding: 0;
+    margin: 5px, 5px, 5px, 5px;
   }
 </style>

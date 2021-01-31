@@ -13,11 +13,10 @@ export default {
   settings () {
     return get('/api/settings')
   },
-
   list_jogos () {
     return get('/api/list_jogos')
+  },
+  create_jogo (criador, esporte, data, horas, descricao, imagem) {
+    return post('api/creategame', {criador, esporte, data, horas, descricao, imagem})
   }
-  // add_jogos (newtask) {
-  //   return post('/api/add_jogos', {new_task: newtask})
-  // }
 }

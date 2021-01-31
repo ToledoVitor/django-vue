@@ -7,9 +7,9 @@
           <v-img class="white--text align-end" height="200px" :src="item.imagem">
             <v-card-title>{{item.esporte}}</v-card-title>
           </v-img>
-          <v-card-subtitle class="pb-0">{{item.criador}}</v-card-subtitle>
+          <v-card-subtitle class="pb-0" @click="change_page(item.criador)">{{item.criador}}</v-card-subtitle>
           <v-card-text class="text--primary">
-            <div>Jogo {{item.eia}} as {{item.horas}}</div>
+            <div>Jogo {{item.dia}} as {{item.horas}}</div>
             <div>{{item.descricao}}</div>
           </v-card-text>
           <v-card-actions>
@@ -24,7 +24,8 @@
       <link rel="stylesheet" href="style.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
       <div class="create">
-        <a href="#" onclick="location.href = '/';">Crie ele Agora!</a>
+        <a href="#" @click="open_button($event)">Crie ele Agora!</a>
+        <createjogo ref="create_jogo" />
       </div>
     </div>
   </v-layout>
@@ -32,19 +33,45 @@
 
 <script>
 import AppApi from '~api'
+import createjogo from '~/components/create_jogo.vue'
 
 export default {
+  components: {
+    createjogo
+  },
   data () {
     return {
-      items: []
+      items: [],
+      criador: '',
+      esporte: '',
+      data: '',
+      horas: '',
+      descricao: '',
+      imagem: ''
     }
   },
   created () {
     AppApi.list_jogos().then(response => {
-      console.log(response)
-      debugger
       this.items = response
     })
+  },
+  methods: {
+    open () {
+      this.visible = true
+    },
+    close () {
+      this.visible = false
+    },
+    open_button (clique) {
+      this.$refs.create_jogo.open()
+      clique.stopPropagation()
+    },
+    change_page (criador) {
+      const dist = criador
+      if (dist !== '') {
+        window.location.href = '/user/' + dist
+      }
+    }
   },
   layout: 'complex'
 }
@@ -55,6 +82,7 @@ export default {
       display: flex;
       width: 100%;
       justify-content: center;
+      text-align: center;
       text-transform: uppercase;
       font-size: 45px;
       line-height: 50px;
@@ -75,10 +103,11 @@ export default {
     margin: 5px, 5px, 5px, 5px;
   }
   .create a{
+    display: flex;
     position: relative;
+    justify-content: center;
+    flex-grow: 0;
     color: #fff;
-    left: 33%;
-    width: 34%;
     display: flex;
     justify-content: center;
     font-size: 50px;
