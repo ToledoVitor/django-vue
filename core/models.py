@@ -26,6 +26,7 @@ class Jogo(models.Model):
     horas = models.CharField(max_length=512, null=True)
     descricao = models.CharField(max_length=512)
     imagem = models.CharField(max_length=512, default="default.jpg")
+    participantes = []
 
     def to_dict_json(self):
         return {
@@ -34,5 +35,6 @@ class Jogo(models.Model):
             'data': self.data,
             'horas': self.horas,
             'descricao': self.descricao,
-            'imagem': self.imagem
+            'imagem': self.imagem,
+            'participantes': self.participantes
         }

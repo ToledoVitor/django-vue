@@ -47,7 +47,8 @@ export default {
       data: '',
       horas: '',
       descricao: '',
-      imagem: ''
+      imagem: '',
+      participantes: []
     }
   },
   created () {

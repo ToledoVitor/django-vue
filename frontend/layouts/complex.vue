@@ -13,10 +13,46 @@
             <h2><a href="#" class="logo" style="color: #19B3D3" onclick="location.href = '/';">Esport.se</a></h2>
             <div class="navigation">
               <a href="#" onclick="location.href = '/';">Home</a>
-              <a href="#" onclick="location.href = '/quemsomos';">Sobre</a>
               <a href="#" onclick="location.href = '/jogos';">Jogos</a>
-              <a href="#" onclick="location.href = '/busca';">Busque os Jogos</a>
-              <a href="#" onclick="location.href = '/login';">Login</a>
+              <a href="#" onclick="location.href = '/busca';">Busca</a>
+              <a href="#" onclick="location.href = '/quemsomos';">Sobre</a>
+              <a href="#" v-if="!logged_user" @click="open_login_dialog($event)">Login</a>
+              <v-menu v-if="logged_user" offset-y>
+                <v-btn icon slot="activator" class="ma-0 ml-5">
+                  <v-avatar size="36px">
+                    <img src="https://graph.facebook.com/4/picture?width=300&height=300">
+                  </v-avatar>
+                </v-btn>
+                <v-card class="no-padding">
+                  <v-list two-line>
+                    <v-list-tile avatar>
+                      <v-list-tile-avatar>
+                        <v-avatar>
+                          <img src="https://graph.facebook.com/4/picture?width=300&height=300">
+                        </v-avatar>
+                      </v-list-tile-avatar>
+                      <v-list-tile-content>
+                        <v-list-tile-title>{{logged_user.first_name}} {{logged_user.last_name}}</v-list-tile-title>
+                        <v-list-tile-sub-title>{{logged_user.email}}</v-list-tile-sub-title>
+                      </v-list-tile-content>
+                    </v-list-tile>
+                  </v-list>
+                  <v-divider />
+                  <v-list>
+                    <v-list-tile @click="switchMode()">
+                      <v-list-tile-content>
+                        <v-list-tile-title>Staff mode</v-list-tile-title>
+                      </v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile @click="logout()">
+                      <v-list-tile-content>
+                        <v-list-tile-title>Log out</v-list-tile-title>
+                      </v-list-tile-content>
+                    </v-list-tile>
+                  </v-list>
+                </v-card>
+              </v-menu>
+              <login-dialog ref="login_dialog" />
             </div>
           </header>
           <v-content>
@@ -32,14 +68,44 @@
 </template>
 
 <script>
+import Vuex from 'vuex'
 import footer from '~/components/footer.vue'
+import loginDialog from '~/components/login-dialog.vue'
+import Snacks from '~/helpers/Snacks.js'
+import AppApi from '~api'
 
 export default {
   components: {
-    leFooter: footer
+    leFooter: footer,
+    loginDialog
   },
+  props: ['state'],
   data () {
     return {}
+  },
+  computed: Object.assign(
+    {},
+    Vuex.mapGetters([
+      'logged_user'
+    ])
+  ),
+  methods: {
+    open_login_dialog (evt) {
+      this.$refs.login_dialog.open()
+      evt.stopPropagation()
+    },
+    logout () {
+      AppApi.logout().then(() => {
+        this.$store.commit('SET_LOGGED_USER', null)
+        Snacks.show(this.$store, {text: 'Até logo!'})
+      })
+    // },
+    // login () {
+    //   AppApi.logout().then(() => {
+    //     this.$store.commit('SET_LOGGED_USER', null)
+    //     Snacks.show(this.$store, {text: 'Até logo!'})
+    //   })
+    }
   }
 }
 </script>

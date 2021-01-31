@@ -16,7 +16,7 @@ export default {
   list_jogos () {
     return get('/api/list_jogos')
   },
-  create_jogo (criador, esporte, data, horas, descricao, imagem) {
-    return post('api/creategame', {criador, esporte, data, horas, descricao, imagem})
+  create_jogo (criador, esporte, data, horas, descricao, imagem, participantes) {
+    return post('api/creategame', {criador, esporte, data, horas, descricao, imagem, participantes})
   }
 }

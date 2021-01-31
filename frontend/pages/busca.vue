@@ -9,16 +9,16 @@
     </head>
     <body>
       <header>
-        <a href="#" class="brand">Brand</a>
+        <a href="#" class="brand">Esporte.se</a>
         <div class="menu">
           <div class="btn">
             <i class="fas fa-times close-btn" />
           </div>
-          <a href="#">Home</a>
-          <a href="#">Services</a>
-          <a href="#">About</a>
-          <a href="#">Blog</a>
-          <a href="#">Contact</a>
+          <a href="#" onclick="location.href = '/';">Home</a>
+          <a href="#" onclick="location.href = '/';">Services</a>
+          <a href="#" onclick="location.href = '/';">About</a>
+          <a href="#" onclick="location.href = '/';">Blog</a>
+          <a href="#" onclick="location.href = '/';">Contact</a>
         </div>
         <div class="btn">
           <i class="fas fa-bars menu-btn" />
