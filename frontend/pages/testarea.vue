@@ -1,202 +1,177 @@
 <template>
-  <html lang="en" dir="ltr">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Responsive Sticky NavBar | For a Website</title>
+  <v-layout class="layout">
+    <h2 class="titulo">Confira os jogos.<br>Encontre o seu!</h2>
+    <v-flex d-flex :items="items" class="lista">
+      <v-flex md4 v-for="item in items" :key="item" class="container">
+        <v-card class="card-container mx-auto" width="100%">
+          <v-card-subtitle class="pb-0" @click="change_page(item.criador)">{{item.criador}}</v-card-subtitle>
+          <v-card-text class="text--primary">
+            <div>Jogo {{item.dia}} as {{item.horas}}</div>
+            <div>{{item.descricao}}</div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="orange" @click="participate(logged_user, item)" text>Participe</v-btn>
+            <v-btn color="orange" @click="send_message(item)" text>Compartilhe</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-flex>
+    <h2 class="titulo">Não achou o jogo que estava procurando?</h2>
+    <div>
       <link rel="stylesheet" href="style.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    </head>
-    <body>
-      <header>
-        <a href="#" class="brand">Esporte.se</a>
-        <div class="menu">
-          <div class="btn">
-            <i class="fas fa-times close-btn" />
-          </div>
-          <a href="#" onclick="location.href = '/';">Home</a>
-          <a href="#" onclick="location.href = '/';">Services</a>
-          <a href="#" onclick="location.href = '/';">About</a>
-          <a href="#" onclick="location.href = '/';">Blog</a>
-          <a href="#" onclick="location.href = '/';">Contact</a>
-        </div>
-        <div class="btn">
-          <i class="fas fa-bars menu-btn" />
-        </div>
-      </header>
-      <section class="section-main">
-        <h1>Sticky Navigation Bar</h1>
-        <h2>Protect Rainforests</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <h2>Protect Nature</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </section>
-    </body>
-  </html>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+      <div v-if="logged_user" class="create">
+        <a href="#" @click="open_button($event)">Crie ele Agora!</a>
+        <createjogo ref="create_jogo" />
+      </div>
+      <h1>{{items}}</h1>
+      <div v-if="logged_user == null" class="create">
+        <a href="#">Crie ele Agora!</a>
+        <h3>Opa, parece que você não está logado ainda. Faça login primeiro!</h3>
+      </div>
+    </div>
+  </v-layout>
 </template>
 
 <script>
+import AppApi from '~api'
+import createjogo from '~/components/create_jogo.vue'
+
 export default {
+  components: {
+    createjogo
+  },
   data () {
     return {
+      items: [],
+      criador: '',
+      esporte: '',
+      data: '',
+      horas: '',
+      descricao: '',
+      imagem: '',
+      participantes: [],
+      text: '',
+      modalidades: []
     }
   },
-  properties () {
-    window.addEventListener('scroll', () => {
-      const header = document.querySelector('header')
-      header.classList.toggle('sticky', window.scrollY > 0)
+  computed: {
+    logged_user () {
+      return this.$store.state.auth.currentUser
+    }
+  },
+  created () {
+    AppApi.list_jogos().then(response => {
+      this.items = response
     })
-    const menu = document.querySelector('.menu')
-    const menuBtn = document.querySelector('.menu-btn')
-    const closeBtn = document.querySelector('.close-btn')
-    menuBtn.addEventListener('click', () => {
-      menu.classList.add('active')
-    })
-    closeBtn.addEventListener('click', () => {
-      menu.classList.remove('active')
-    })
-  }
+  },
+  methods: {
+    open () {
+      this.visible = true
+    },
+    close () {
+      this.visible = false
+    },
+    open_button (clique) {
+      this.$refs.create_jogo.open()
+      clique.stopPropagation()
+    },
+    change_page (criador) {
+      const dist = criador
+      if (dist !== '') {
+        window.location.href = '/user/' + dist
+      }
+    },
+    participate (logged_user, item) {
+      if (logged_user) {
+        item.participantes = item.participantes.push[logged_user.username]
+      } else {
+        window.alert('Voceê tem que fazer login primeiro')
+      }
+    },
+    send_message (item) {
+      this.text += `Ae, se liga nesse jogo aqui \n \n`
+      this.text += `A galera vai jogar *${item.esporte}*, `
+      this.text += `e jogo vai ser dia *${item.data}* as *${item.horas}* \n`
+      this.text += `Ah, e quem criou o jogo foi *${item.criador}*. \n`
+      this.text += `Bora jogar também??\n \n`
+      this.text += `Quer achar mais jogos como esse? \n`
+      this.text += `*hhtps://esporte.se*`
+      this.apilink = 'http://'
+      this.apilink += 'web'
+      this.apilink +=
+        '.whatsapp.com/send?phone=5511974648475' +
+        '&text=' +
+        encodeURI(this.text)
+      window.open(this.apilink)
+    },
+    isMobile () {
+      let check = false;
+      (function (a) {
+        if (
+          /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
+            a
+          ) ||
+          /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw-(n|u)|c55\/|capi|ccwa|cdm-|cell|chtm|cldc|cmd-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc-s|devi|dica|dmob|do(c|p)o|ds(12|-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(-|_)|g1 u|g560|gene|gf-5|g-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd-(m|p|t)|hei-|hi(pt|ta)|hp( i|ip)|hs-c|ht(c(-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i-(20|go|ma)|i230|iac( |-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|-[a-w])|libw|lynx|m1-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|-([1-8]|c))|phil|pire|pl(ay|uc)|pn-2|po(ck|rt|se)|prox|psio|pt-g|qa-a|qc(07|12|21|32|60|-[2-7]|i-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h-|oo|p-)|sdk\/|se(c(-|0|1)|47|mc|nd|ri)|sgh-|shar|sie(-|m)|sk-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h-|v-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl-|tdg-|tel(i|m)|tim-|t-mo|to(pl|sh)|ts(70|m-|m3|m5)|tx-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas-|your|zeto|zte-/i.test(
+            a.substr(0, 4)
+          )
+        ) {}
+        check = true
+      })(navigator.userAgent || navigator.vendor || window.opera)
+      return check
+    }
+  },
+  layout: 'complex'
 }
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
-body{
-  min-height: 100vh;
-}
-
-.section-main{
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  background: url('../static/bg.jpg') no-repeat;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 100px;
-}
-
-.section-main h1{
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 60px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  line-height: 80px;
-}
-
-header{
-  z-index: 999;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 100px;
-  transition: 0.6s;
-}
-
-header.sticky{
-  background: #1483D5;
-  padding: 15px 100px;
-}
-
-header .brand{
-  color: #fff;
-  font-size: 30px;
-  font-weight: 700;
-  text-transform: uppercase;
-  text-decoration: none;
-  letter-spacing: 2px;
-}
-
-header .menu{
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-header .menu a{
-  color: #fff;
-  font-size: 16px;
-  font-weight: 500;
-  text-decoration: none;
-  margin: 0 30px;
-  padding: 0 10px;
-  border-radius: 20px;
-  transition: 0.3s;
-  transition-property: color, background;
-}
-
-header .menu a:hover{
-  color: #000;
-  background: #fff;
-}
-
-header .btn{
-  color: #fff;
-  font-size: 25px;
-  cursor: pointer;
-  display: none;
-}
-
-@media (max-width: 1060px){
-  header .btn{
-    display: block;
+  .titulo{
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      text-transform: uppercase;
+      width: 100%;
+      font-size: 45px;
+      line-height: 50px;
   }
-
-  header .menu{
-    position: fixed;
-    background: #1483D5;
+  .layout{
+    display: flex;
     flex-direction: column;
-    min-width: 400px;
-    height: 100vh;
-    top: 0;
-    right: -100%;
-    padding: 80px 50px;
-    transition: 0.5s;
-    transition-property: right;
+    margin-top: 60px;
   }
-
-  header .menu.active{
-    right: 0;
+  .lista{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 35%;
+    margin: 5px;
   }
-
-  header .menu .close-btn{
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 25px;
+  .mensagem{
+    display: flex;
+    justify-content: center;
   }
-
-  header .menu a{
-    display: block;
-    font-size: 20px;
-    margin: 20px;
-    padding: 0 15px;
+  .container{
+    padding: 0;
+    margin: 5px, 5px, 5px, 5px;
   }
-}
-
-@media (max-width: 630px){
-  .section-main h1{
+  .create a{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center !important;
+    flex-grow: 0;
+    color: #fff;
     font-size: 50px;
-    line-height: 60px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 20px;
+    transition: 0.3s;
+    transition-property: color, background;
+    max-width: 450px;
   }
-}
+  .create a:hover{
+    color: rgb(0, 0, 0);
+    background: #fff;
+  }
 </style>

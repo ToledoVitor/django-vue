@@ -22,7 +22,7 @@ class ActivityLog(models.Model):
 class Jogo(models.Model):
     criador = models.CharField(max_length=512, null=True)
     esporte = models.CharField(max_length=512, null=True)
-    data  = models.CharField(max_length=512, null=True)
+    dia  = models.CharField(max_length=512, null=True)
     horas = models.CharField(max_length=512, null=True)
     descricao = models.CharField(max_length=512)
     imagem = models.CharField(max_length=512, default="default.jpg")
@@ -32,7 +32,7 @@ class Jogo(models.Model):
         return {
             'criador': self.criador,
             'esporte': self.esporte,
-            'data': self.data,
+            'dia': self.dia,
             'horas': self.horas,
             'descricao': self.descricao,
             'imagem': self.imagem,

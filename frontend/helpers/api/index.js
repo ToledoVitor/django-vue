@@ -16,7 +16,16 @@ export default {
   list_jogos () {
     return get('/api/list_jogos')
   },
-  create_jogo (criador, esporte, data, horas, descricao, imagem, participantes) {
-    return post('api/creategame', {criador, esporte, data, horas, descricao, imagem, participantes})
+  create_jogo (criador, esporte, data, horas, descricao, imagem, participantes = []) {
+    return post('/api/creategame', {criador, esporte, data, horas, descricao, imagem, participantes})
+  },
+  search_info (info) {
+    return get(`/api/search_info/${info}`)
+  },
+  participate (username, jogo) {
+    return get(`/api/participate/username=${username}/jogo=${jogo}`)
+  },
+  unparticipate (username, jogo) {
+    return get(`/api/unparticipate/username=${username}/jogo=${jogo}`)
   }
 }

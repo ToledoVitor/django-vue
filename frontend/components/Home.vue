@@ -17,11 +17,6 @@ export default {
   data () {
     return {}
   }
-  // methods: {
-  //   addToTimeline(jogo) {
-  //     this.jogos.push(jogo)
-  //   }
-  // }
 }
 </script>
 

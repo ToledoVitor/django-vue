@@ -8,5 +8,8 @@ urlpatterns = [
     path('api/whoami', views.whoami),
     path('api/settings', views.settings),
     path('api/list_jogos', views.list_jogos),
-    path('api/creategame', views.create_jogo)
+    path('api/creategame', views.create_jogo),
+    path('api/search_info/<str:info>', views.search_info),
+    path('api/participate/username=<str:username>/jogo=<str:jogo>', views.participate),
+    path('api/unparticipate/username=<str:username>/jogo=<str:jogo>', views.unparticipate)
 ]

@@ -57,14 +57,26 @@ def list_jogos(request):
 def create_jogo(request):
     criador = request.POST['criador']
     esporte = request.POST['esporte']
-    data = request.POST['data']
+    dia = request.POST['dia']
     horas = request.POST['horas']
     descricao = request.POST['descricao']
     imagem = request.POST['imagem']
     participantes = []
     jogo = jogos_svc.create_jogo(
-        criador=criador, esporte=esporte, data=data, horas=horas, descricao=descricao, imagem=imagem, participantes=participantes)
+        criador=criador, esporte=esporte, dia=dia, horas=horas, descricao=descricao, imagem=imagem, participantes=participantes)
     return JsonResponse(jogo, safe=False)
+
+def search_info(request, info):
+    result = jogos_svc.search_info(info)
+    return JsonResponse(result, safe=False)
+
+def participate(request, username, jogo):
+    result = jogos_svc.participate(username, jogo)
+    return JsonResponse(result, safe=False)
+
+def unparticipate(request, username, jogo):
+    result = jogos_svc.unparticipate(username, jogo)
+    return JsonResponse(result, safe=False)
 
 def _user2dict(user):
     d = {
