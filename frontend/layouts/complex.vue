@@ -15,7 +15,6 @@
               <div class="btn">
                 <i class="fas fa-times close-btn" />
               </div>
-              <!-- :to="{name: 'index'}" -->
               <a href="#" onclick="location.href = '/';">Home</a>
               <a href="#" onclick="location.href = '/perfil';">Perfil</a>
               <a href="#" onclick="location.href = '/jogos';">Jogos</a>
