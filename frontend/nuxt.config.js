@@ -11,7 +11,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    titleTemplate: 'Esporte.se - Os 10%',
+    titleTemplate: 'Esporte.se',
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },

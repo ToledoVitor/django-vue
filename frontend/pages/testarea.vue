@@ -1,21 +1,38 @@
 <template>
   <v-layout class="layout">
     <h2 class="titulo">Confira os jogos.<br>Encontre o seu!</h2>
-    <v-flex d-flex :items="items" class="lista">
-      <v-flex md4 v-for="item in items" :key="item" class="container">
-        <v-card class="card-container mx-auto" width="100%">
-          <v-card-subtitle class="pb-0" @click="change_page(item.criador)">{{item.criador}}</v-card-subtitle>
-          <v-card-text class="text--primary">
-            <div>Jogo {{item.dia}} as {{item.horas}}</div>
-            <div>{{item.descricao}}</div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="orange" @click="participate(logged_user, item)" text>Participe</v-btn>
-            <v-btn color="orange" @click="send_message(item)" text>Compartilhe</v-btn>
-          </v-card-actions>
-        </v-card>
+    <div v-for="item in items" :key="item">
+      <v-card class="card-container mx-auto" width="98%">
+        <v-img class="white--text align-end" height="200px" :src="item.esporte + '.jpg'">
+          <v-card-title class="esporte">{{item.esporte}}</v-card-title>
+        </v-img>
+      </v-card>
+      <v-flex d-flex :item="item" class="lista">
+        <v-flex md4 v-for="jogo in item.jogos" :key="jogo" class="container">
+          <v-card class="card-container mx-auto" width="100%">
+            <v-card-subtitle class="pb-0" @click="change_page(jogo.criador)">{{jogo.criador}}</v-card-subtitle>
+            <v-card-text class="text--primary" padding="0px 16px 0px 16px;">
+              <div>Data: {{jogo.dia}}</div>
+              <div>Horário: {{jogo.horas}}</div>
+              <div>{{jogo.descricao}}</div>
+            </v-card-text>
+            <v-card-actions>
+              <div v-if="logged_user">
+                <v-btn v-if="jogo.participantes.includes(logged_user.username)" color="orange" @click="desparticipar(logged_user.username, JSON.stringify(jogo))" text>UnParticipe</v-btn>
+                <v-btn v-if="!(jogo.participantes.includes(logged_user.username))" color="orange" @click="participar(logged_user.username, JSON.stringify(jogo))" text>Participe</v-btn>
+                <v-btn color="orange" @click="send_message(jogo)" text>Compartilhe</v-btn>
+              </div>
+            </v-card-actions>
+            <v-card-actions>
+              <div v-if="logged_user == null">
+                <v-btn color="orange" text>Participe</v-btn>
+                <v-btn color="orange" text>Compartilhe</v-btn>
+              </div>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
       </v-flex>
-    </v-flex>
+    </div>
     <h2 class="titulo">Não achou o jogo que estava procurando?</h2>
     <div>
       <link rel="stylesheet" href="style.css">

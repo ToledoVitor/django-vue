@@ -1,6 +1,7 @@
 <template>
   <v-layout class="layout">
-    <h2 class="titulo">Confira os jogos.<br>Encontre o seu!</h2>
+    <h2 class="titulo">Confira os jogos.</h2>
+    <h2 class="titulo"><span>Encontre o seu!</span></h2>
     <v-card class="card-container mx-auto" width="98%">
       <v-img class="white--text align-end" height="200px" :src="'futebol.jpg'">
         <v-card-title class="esporte">Futebol</v-card-title>
@@ -15,15 +16,13 @@
             <div>Horário: {{item.horas}}</div>
             <div>{{item.descricao}}</div>
           </v-card-text>
-          <div v-if="logged_user">
-            <div v-if="item.participantes.includes(logged_user.username)">
-              <v-btn color="orange" @click="desparticipar(logged_user.username, item)" text>UnParticipe</v-btn>
+          <v-card-actions>
+            <div v-if="logged_user">
+              <v-btn v-if="item.participantes.includes(logged_user.username)" color="orange" @click="desparticipar(logged_user.username, JSON.stringify(item))" text>UnParticipe</v-btn>
+              <v-btn v-if="!(item.participantes.includes(logged_user.username))" color="orange" @click="participar(logged_user.username, JSON.stringify(item))" text>Participe</v-btn>
+              <v-btn color="orange" @click="send_message(item)" text>Compartilhe</v-btn>
             </div>
-            <div v-if="!(item.participantes.includes(logged_user.username))">
-              <v-btn color="orange" @click="participar(logged_user.username, item)" text>Participe</v-btn>
-            </div>
-            <v-btn color="orange" @click="send_message(item)" text>Compartilhe</v-btn>
-          </div>
+          </v-card-actions>
           <v-card-actions>
             <div v-if="logged_user == null">
               <v-btn color="orange" text>Participe</v-btn>
@@ -68,7 +67,7 @@ export default {
       participantes: [],
       text: '',
       game: '',
-      dict_all: [{esporte: 'Baseball', jogos: []}, {esporte: 'Basquete', jogos: []}, {esporte: 'Futebol', jogos: []}, {esporte: 'Futebolameric', jogos: []}, {esporte: 'Tenis', jogos: []}, {esporte: 'Volei', jogos: []}]
+      esporte_list: [{esporte: 'Baseball', jogos: []}, {esporte: 'Basquete', jogos: []}, {esporte: 'Futebol', jogos: []}, {esporte: 'Futebolameric', jogos: []}, {esporte: 'Tenis', jogos: []}, {esporte: 'Volei', jogos: []}]
     }
   },
   computed: {
@@ -77,7 +76,7 @@ export default {
     }
   },
   created () {
-    AppApi.list_jogos().then(response => {
+    AppApi.list_jogos_by_esporte().then(response => {
       this.items = response
     })
   },
@@ -100,12 +99,12 @@ export default {
     },
     participar (username, jogo) {
       AppApi.participate(username, jogo).then(result => {
-        window.alert()
+        document.location.reload()
       })
     },
     desparticipar (username, jogo) {
       AppApi.unparticipate(username, jogo).then(result => {
-        window.alert()
+        document.location.reload()
       })
     },
     send_message (item) {
@@ -146,13 +145,13 @@ export default {
 
 <style>
   .titulo{
-      display: flex;
-      justify-content: center;
-      text-align: center;
-      text-transform: uppercase;
-      width: 100%;
-      font-size: 45px;
-      line-height: 50px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+    font-size: 45px;
+    line-height: 50px;
   }
   .layout{
     display: flex;

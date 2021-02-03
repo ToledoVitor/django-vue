@@ -5,6 +5,7 @@
       <h1 class="titulo"><span>{{username}}!</span></h1>
       <v-spacer />
       <h2 class="subtitulo">Confira os jogos criados por <span>{{username}}</span>:</h2>
+      <h3 v-if="user_jogos.length == 0" class="mensagemm"> Pelo visto o usuário não criou nenhum jogo ainda.</h3>
       <v-flex d-flex :items="items" class="lista">
         <v-flex md4 v-for="jogo in user_jogos" :key="jogo" class="container">
           <v-card class="card-container mx-auto" width="100%">
@@ -24,6 +25,7 @@
         </v-flex>
       </v-flex>
       <h2 class="subtitulo">Confira os Jogos Que {{username}} <span>Vai Jogar</span>:</h2>
+      <h3 v-if="user_jogos.length == 0" class="mensagemm"> Pelo visto o usuário não vai jogar nada ainda.</h3>
       <v-flex d-flex :items="items" class="lista">
         <v-flex md4 v-for="jogo in user_participando" :key="jogo" class="container">
           <v-card class="card-container mx-auto" width="100%">
@@ -41,6 +43,7 @@
             </v-card-actions>
           </v-card>
         </v-flex>
+        <h3>{{items}}</h3>
       </v-flex>
     </div>
   </v-layout>
@@ -87,7 +90,7 @@ export default {
     margin: 0px;
   }
   .titulo span{
-    color: #19B3D3;
+    color:#1976d2;
   }
   .subtitulo{
     margin: 30px;

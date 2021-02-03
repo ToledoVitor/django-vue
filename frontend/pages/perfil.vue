@@ -13,7 +13,7 @@
               <v-card-title>{{jogo.esporte}}</v-card-title>
             </v-img>
             <v-card-text class="text--primary">
-              <div>Data: {{jogo.data}}</div>
+              <div>Data: {{jogo.dia}}</div>
               <div>Horário: {{jogo.horas}}</div>
               <div>{{jogo.descricao}}</div>
             </v-card-text>
@@ -44,6 +44,8 @@
           </v-card>
         </v-flex>
       </v-flex>
+      <h3>{{logged_user}}</h3>
+      <h3>{{items}}</h3>
     </div>
     <div v-if="logged_user == null">
       <h2 class="subtitulo">Você Pecisa Fazer Login Antes de Ver Seu Perfil!</h2>
@@ -89,14 +91,14 @@ export default {
     margin: 0px;
   }
   .titulo span{
-    color: #19B3D3;
+    color: #1976d2;
   }
   .subtitulo{
     margin: 30px 0px 5px 30px !important;
     text-size-adjust: auto;
   }
   .subtitulo span{
-    color: #19B3D3
+    color: #1976d2;
   }
   .lista{
     display: flex;
@@ -109,7 +111,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     margin-left: 5%;
-    color: #9e9e9e;
+    color: #d1d1d1;
   }
   .container{
     padding: 0;

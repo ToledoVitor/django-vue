@@ -48,11 +48,7 @@ def settings(request):
     return JsonResponse(le_settings)
 
 def list_jogos(request):
-    lista = list(jogos_svc.list_jogos())
-    jogos = []
-    for i in lista:
-        jogos.append(i.to_dict_json())
-    return JsonResponse(jogos, safe=False)
+    return JsonResponse(jogos_svc.list_jogos_by_esporte(), safe=False)
 
 def create_jogo(request):
     criador = request.POST['criador']
