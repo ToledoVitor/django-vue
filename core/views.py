@@ -61,7 +61,7 @@ def create_jogo(request):
     horas = request.POST['horas']
     descricao = request.POST['descricao']
     imagem = request.POST['imagem']
-    participantes = []
+    participantes = request.POST['participantes']
     jogo = jogos_svc.create_jogo(
         criador=criador, esporte=esporte, dia=dia, horas=horas, descricao=descricao, imagem=imagem, participantes=participantes)
     return JsonResponse(jogo, safe=False)

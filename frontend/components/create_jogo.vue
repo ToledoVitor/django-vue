@@ -17,7 +17,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="date"
+                v-model="dia"
                 label="Picker without buttons"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -27,16 +27,16 @@
               />
             </template>
             <v-date-picker
-              v-model="date"
+              v-model="dia"
               @input="menu = false"
             />
           </v-menu>
           <v-card-subtitle class="subtitle"> Que horas você quer jogar?</v-card-subtitle>
           <v-menu ref="menu" v-model="menu1" :close-on-content-click="false" :nudge-right="40" :return-value.sync="time" transition="scale-transition" offset-y max-width="290px" min-width="290px">
             <template v-slot:activator="{ on, attrs }">
-              <v-text-field v-model="time" label="Picker in menu" outlined prepend-icon="mdi-clock-time-four-outline" readonly v-bind="attrs" v-on="on" />
+              <v-text-field v-model="horas" label="Picker in menu" outlined prepend-icon="mdi-clock-time-four-outline" readonly v-bind="attrs" v-on="on" />
             </template>
-            <v-time-picker v-if="menu1" v-model="time" full-width @click:minute="$refs.menu.save(time)" />
+            <v-time-picker v-if="menu1" v-model="horas" full-width @click:minute="$refs.menu.save(time)" />
           </v-menu>
           <v-card-subtitle class="subtitle"> Quer colocar algo na sua descrição?</v-card-subtitle>
           <v-textarea rows="1" outlined prepend-icon="mdi-pencil" label="Uma Breve descrição" required v-model="descricao" />
@@ -70,7 +70,6 @@ export default {
       loading: false,
       error: false,
       time: null,
-      date: new Date().toISOString().substr(0, 10),
       menu: false,
       menu1: false
     }
@@ -92,9 +91,9 @@ export default {
       this.error = false
       this.esporte = this.esporte.toLowerCase()
       this.criador = this.logged_user.username
+      this.participantes = []
       this.imagem = this.esporte.replace(/ /g, '') + 'jpg'
-      this.participantes = [this.logged_user.username]
-      const jogo = AppApi.create_jogo(this.criador, this.esporte, this.data, this.horas, this.descricao, this.imagem, this.participantes).then(() => {
+      const jogo = AppApi.create_jogo(this.criador, this.esporte, this.dia, this.horas, this.descricao, this.imagem, this.participantes).then(() => {
         document.location.reload()
       })
       if (jogo) {

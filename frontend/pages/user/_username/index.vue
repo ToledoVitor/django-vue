@@ -8,7 +8,7 @@
       <v-flex d-flex :items="items" class="lista">
         <v-flex md4 v-for="jogo in user_jogos" :key="jogo" class="container">
           <v-card class="card-container mx-auto" width="100%">
-            <v-img class="white--text align-end" height="200px" :src="jogo.imagem">
+            <v-img class="white--text align-end" height="200px" :src="'tenis.jpg'">
               <v-card-title>{{jogo.esporte}}</v-card-title>
             </v-img>
             <v-card-subtitle class="pb-0">{{jogo.criador}}</v-card-subtitle>

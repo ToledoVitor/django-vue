@@ -6,26 +6,25 @@
         <v-card-title class="esporte">Futebol</v-card-title>
       </v-img>
     </v-card>
-    <h1>{{logged_user.username}}</h1>
     <v-flex d-flex :items="items" class="lista">
       <v-flex md4 v-for="item in items" :key="item" class="container">
         <v-card class="card-container mx-auto" width="100%">
           <v-card-subtitle class="pb-0" @click="change_page(item.criador)">{{item.criador}}</v-card-subtitle>
           <v-card-text class="text--primary" padding="0px 16px 0px 16px;">
-            <div>Data: {{item.data}}</div>
+            <div>Data: {{item.dia}}</div>
             <div>Horário: {{item.horas}}</div>
             <div>{{item.descricao}}</div>
           </v-card-text>
-          <v-card-actions>
-            <div v-if="logged_user">
-              <div v-if="logged_user.username in item.participantes">
-                <v-btn color="orange" @click="desparticipar(logged_user.username, item)" text>UnParticipe</v-btn>
-              </div>
-              <div v-if="!(logged_user.username in item.participantes)">
-                <v-btn color="orange" @click="participar(logged_user.username, item)" text>Participe</v-btn>
-              </div>
-              <v-btn color="orange" @click="send_message(item)" text>Compartilhe</v-btn>
+          <div v-if="logged_user">
+            <div v-if="item.participantes.includes(logged_user.username)">
+              <v-btn color="orange" @click="desparticipar(logged_user.username, item)" text>UnParticipe</v-btn>
             </div>
+            <div v-if="!(item.participantes.includes(logged_user.username))">
+              <v-btn color="orange" @click="participar(logged_user.username, item)" text>Participe</v-btn>
+            </div>
+            <v-btn color="orange" @click="send_message(item)" text>Compartilhe</v-btn>
+          </div>
+          <v-card-actions>
             <div v-if="logged_user == null">
               <v-btn color="orange" text>Participe</v-btn>
               <v-btn color="orange" text>Compartilhe</v-btn>
@@ -69,7 +68,7 @@ export default {
       participantes: [],
       text: '',
       game: '',
-      list_all: {baseball: [], basquete: [], futebol: [], futebolameric: [], tenis: [], volei: []}
+      dict_all: [{esporte: 'Baseball', jogos: []}, {esporte: 'Basquete', jogos: []}, {esporte: 'Futebol', jogos: []}, {esporte: 'Futebolameric', jogos: []}, {esporte: 'Tenis', jogos: []}, {esporte: 'Volei', jogos: []}]
     }
   },
   computed: {
@@ -80,11 +79,6 @@ export default {
   created () {
     AppApi.list_jogos().then(response => {
       this.items = response
-      let counter = 0
-      for (counter = 0; counter < this.items.length; counter++) {
-        this.game = this.items[counter].esporte
-        this.list_all.game.push(this.item)
-      }
     })
   },
   methods: {

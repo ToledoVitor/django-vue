@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date, datetime
 # {% load static %}
 
 class ActivityLog(models.Model):
@@ -22,17 +23,17 @@ class ActivityLog(models.Model):
 class Jogo(models.Model):
     criador = models.CharField(max_length=512, null=True)
     esporte = models.CharField(max_length=512, null=True)
-    dia  = models.CharField(max_length=512, null=True)
-    horas = models.CharField(max_length=512, null=True)
+    dia = models.DateField(default=date.today)
+    horas = models.TimeField(default=datetime.now)
     descricao = models.CharField(max_length=512)
     imagem = models.CharField(max_length=512, default="default.jpg")
-    participantes = []
+    participantes = models.CharField(max_length=512, null="true")
 
     def to_dict_json(self):
         return {
             'criador': self.criador,
             'esporte': self.esporte,
-            'dia': self.dia,
+            'dia': self.dia.isoformat(),
             'horas': self.horas,
             'descricao': self.descricao,
             'imagem': self.imagem,
