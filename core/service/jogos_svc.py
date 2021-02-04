@@ -1,10 +1,17 @@
 from core.models import Jogo
 from datetime import date, datetime
 from itertools import groupby
+from collections import namedtuple
+from django.contrib.auth.models import User
 import ast
+import json
 import operator
 
 def list_jogos():
+    lista = Jogo.objects.order_by('esporte').all()
+    return lista
+
+def list_for_user():
     lista = Jogo.objects.order_by('esporte').all()
     return lista
 
@@ -28,17 +35,21 @@ def search_info(info):
     return lista_jogos
 
 def participate(username, jogo):
-    jogo = ast.literal_eval(jogo)
-    subst = jogo.get('participantes')
-    subst = ast.literal_eval(subst)
-    add = subst.append(username)
-    jogo["participantes"] = str(subst)
-    return str(jogo)
+    jogo = json.loads(jogo)
+    jogo_id = jogo['id']
+    participantes = jogo['participantes']
+    participantes += f", {username}" if participantes else username
+    jogo_db = Jogo.objects.get(id=jogo_id)
+    jogo_db.participantes = participantes
+    jogo_db.save()
+    return jogo
 
 def unparticipate(username, jogo):
-    jogo = ast.literal_eval(jogo)
-    subst = jogo.get('participantes')
-    subst = ast.literal_eval(subst)
-    rmv = subst.remove(username)
-    jogo["participantes"] = str(subst)
+    jogo = json.loads(jogo)
+    jogo_id = jogo['id']
+    participantes = jogo['participantes']
+    participantes = participantes.replace(f", {username}", '').replace(username, '')
+    jogo_db = Jogo.objects.get(id=jogo_id)
+    jogo_db.participantes = participantes
+    jogo_db.save()
     return jogo

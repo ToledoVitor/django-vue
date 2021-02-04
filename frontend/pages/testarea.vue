@@ -138,6 +138,11 @@ export default {
       return check
     }
   },
+  head () {
+    return {
+      title: 'Teste'
+    }
+  },
   layout: 'complex'
 }
 </script>

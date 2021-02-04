@@ -47,6 +47,13 @@ def settings(request):
     le_settings = globalsettings_svc.list_settings()
     return JsonResponse(le_settings)
 
+def list_for_user(request):
+    lista = list(jogos_svc.list_for_user())
+    jogos = []
+    for i in lista:
+        jogos.append(i.to_dict_json())
+    return JsonResponse(jogos, safe=False)
+
 def list_jogos(request):
     return JsonResponse(jogos_svc.list_jogos_by_esporte(), safe=False)
 

@@ -5,7 +5,7 @@
       <v-card-text>
         <v-container fluid>
           <v-card-subtitle class="subtitle"> Qual jogo você quer jogar?</v-card-subtitle>
-          <v-select :items="esportes" prepend-icon="mdi-basketball" label="Outlined style" outlined v-model="esporte" />
+          <v-select :items="esportes" prepend-icon="mdi-basketball" outlined v-model="esporte" hide-details />
           <v-card-subtitle class="subtitle"> Que dia você quer jogar?</v-card-subtitle>
           <v-menu
             v-model="menu"
@@ -18,12 +18,12 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 v-model="dia"
-                label="Picker without buttons"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
                 v-on="on"
                 outlined
+                hide-details
               />
             </template>
             <v-date-picker
@@ -34,12 +34,12 @@
           <v-card-subtitle class="subtitle"> Que horas você quer jogar?</v-card-subtitle>
           <v-menu ref="menu" v-model="menu1" :close-on-content-click="false" :nudge-right="40" :return-value.sync="time" transition="scale-transition" offset-y max-width="290px" min-width="290px">
             <template v-slot:activator="{ on, attrs }">
-              <v-text-field v-model="horas" label="Picker in menu" outlined prepend-icon="mdi-clock-time-four-outline" readonly v-bind="attrs" v-on="on" />
+              <v-text-field v-model="horas" outlined prepend-icon="mdi-clock-time-four-outline" readonly v-bind="attrs" v-on="on" hide-details />
             </template>
             <v-time-picker v-if="menu1" v-model="horas" full-width @click:minute="$refs.menu.save(time)" />
           </v-menu>
           <v-card-subtitle class="subtitle"> Quer colocar algo na sua descrição?</v-card-subtitle>
-          <v-textarea rows="1" outlined prepend-icon="mdi-pencil" label="Uma Breve descrição" required v-model="descricao" />
+          <v-textarea rows="1" outlined prepend-icon="mdi-pencil" required v-model="descricao" hide-details />
         </v-container>
       </v-card-text>
       <v-card-actions>
@@ -66,7 +66,7 @@ export default {
       descricao: '',
       imagem: '',
       participantes: [],
-      esportes: ['Baseball', 'Basquete', 'Futebol', 'Futebol Americano', 'Tênis', 'Volei'],
+      esportes: ['Baseball', 'Basquete', 'Futebol', 'Futebol Americano', 'Tênis', 'Vôlei'],
       loading: false,
       error: false,
       time: null,
@@ -89,10 +89,9 @@ export default {
     create_jogo () {
       this.loading = true
       this.error = false
-      this.esporte = this.esporte.toLowerCase()
       this.criador = this.logged_user.username
-      this.participantes = []
-      this.imagem = this.esporte.replace(/ /g, '') + 'jpg'
+      this.participantes = ''
+      this.imagem = this.esporte.replace(/ /g, '') + '.jpg'
       const jogo = AppApi.create_jogo(this.criador, this.esporte, this.dia, this.horas, this.descricao, this.imagem, this.participantes).then(() => {
         document.location.reload()
       })
@@ -127,5 +126,8 @@ export default {
   }
   .v-text-field__details{
     height: 0;
+  }
+  .v-text-field{
+    margin-bottom: 2px;
   }
 </style>

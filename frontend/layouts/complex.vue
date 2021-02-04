@@ -1,72 +1,62 @@
 <template>
   <v-app>
-    <html lang="en" dir="ltr">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-      </head>
-      <body>
-        <section>
-          <header>
-            <a href="#" class="brand">Esporte.se</a>
-            <div class="menu">
-              <div class="btn">
-                <i class="fas fa-times close-btn" />
-              </div>
-              <a href="#" onclick="location.href = '/';">Home</a>
-              <a href="#" onclick="location.href = '/perfil';">Perfil</a>
-              <a href="#" onclick="location.href = '/jogos';">Jogos</a>
-              <a href="#" onclick="location.href = '/busca';">Busca</a>
-              <a href="#" onclick="location.href = '/quemsomos';">Sobre</a>
-              <a href="#" v-if="!logged_user" @click="open_login_dialog($event)">Login</a>
-              <v-menu v-if="logged_user" offset-y>
-                <template v-slot:activator="{ on }">
-                  <v-btn icon v-on="on" class="ma-0 ml-5">
-                    <v-avatar size="36px">
+    <section>
+      <header>
+        <a href="#" class="brand">Esporte.se</a>
+        <div class="menu">
+          <div class="btn">
+            <i class="fas fa-times close-btn" />
+          </div>
+          <a href="#" onclick="location.href = '/';">Home</a>
+          <a href="#" onclick="location.href = '/perfil';">Perfil</a>
+          <a href="#" onclick="location.href = '/jogos';">Jogos</a>
+          <a href="#" onclick="location.href = '/busca';">Busca</a>
+          <a href="#" onclick="location.href = '/quemsomos';">Sobre</a>
+          <a href="#" v-if="!logged_user" @click="open_login_dialog($event)">Login</a>
+          <v-menu v-if="logged_user" offset-y>
+            <template v-slot:activator="{ on }">
+              <v-btn icon v-on="on" class="ma-0 ml-5">
+                <v-avatar size="36px">
+                  <img src="profile.jpg">
+                </v-avatar>
+              </v-btn>
+            </template>
+            <v-card class="no-padding">
+              <v-list two-line>
+                <v-list-item>
+                  <v-list-item-avatar>
+                    <v-avatar>
                       <img src="profile.jpg">
                     </v-avatar>
-                  </v-btn>
-                </template>
-                <v-card class="no-padding">
-                  <v-list two-line>
-                    <v-list-item>
-                      <v-list-item-avatar>
-                        <v-avatar>
-                          <img src="profile.jpg">
-                        </v-avatar>
-                      </v-list-item-avatar>
-                      <v-list-item-content>
-                        <v-list-item-title>{{logged_user.first_name}} {{logged_user.last_name}}</v-list-item-title>
-                        <v-list-item-subtitle>{{logged_user.email}}</v-list-item-subtitle>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list>
-                  <v-divider />
-                  <v-list>
-                    <v-list-item @click="logout()">
-                      <v-list-item-content>
-                        <v-list-item-title>Log out</v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list>
-                </v-card>
-              </v-menu>
-              <login-dialog ref="login_dialog" /><login-dialog ref="login_dialog" />
-            </div>
-            <div class="btn">
-              <i class="fas fa-bars menu-btn" />
-            </div>
-          </header>
-          <v-content margin->
-            <v-container fluid>
-              <nuxt />
-            </v-container>
-          </v-content>
-        </section>
-      </body>
-    </html>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title>{{logged_user.first_name}} {{logged_user.last_name}}</v-list-item-title>
+                    <v-list-item-subtitle>{{logged_user.email}}</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+              <v-divider />
+              <v-list>
+                <v-list-item @click="logout()">
+                  <v-list-item-content>
+                    <v-list-item-title>Log out</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-menu>
+          <login-dialog ref="login_dialog" /><login-dialog ref="login_dialog" />
+        </div>
+        <div class="btn">
+          <i class="fas fa-bars menu-btn" />
+        </div>
+      </header>
+      <v-content margin->
+        <v-container fluid>
+          <nuxt />
+        </v-container>
+      </v-content>
+    </section>
     <le-footer />
   </v-app>
 </template>
@@ -121,8 +111,6 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
 *{
   margin: 0;
   padding: 0;
@@ -166,7 +154,7 @@ body{
 }
 
 header{
-  z-index: 999;
+  z-index: 10;
   position: fixed;
   top: 0;
   left: 0;

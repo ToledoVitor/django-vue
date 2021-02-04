@@ -31,6 +31,7 @@ class Jogo(models.Model):
 
     def to_dict_json(self):
         return {
+            'id': self.id,
             'criador': self.criador,
             'esporte': self.esporte,
             'dia': self.dia.isoformat(),

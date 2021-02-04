@@ -6,7 +6,7 @@
       <a href="#Basquete">Basquete</a>
       <a href="#Futebol">Futebol</a>
       <a href="#Futebol Americano">Futebol Americano</a>
-      <a href="#Tenis">Tenis</a>
+      <a href="#Tenis">Tênis</a>
       <a href="#Vôlei">Vôlei</a>
     </div>
     <div v-for="item in items" :key="item">
@@ -150,6 +150,11 @@ export default {
       return check
     }
   },
+  head () {
+    return {
+      title: 'Jogos'
+    }
+  },
   layout: 'complex'
 }
 </script>
@@ -163,11 +168,12 @@ export default {
     width: 100%;
     font-size: 45px;
     line-height: 50px;
-    margin-bottom: 5px;
+    margin-top: 20px;
   }
   .links{
     flex-direction: column;
     justify-content: center;
+    margin-top: 20px;
   }
   .layout{
     display: flex;
@@ -189,7 +195,7 @@ export default {
     padding: 0;
     margin: 5px, 5px, 5px, 5px;
   }
-  .criado a{
+  .create a{
     display: flex;
     position: relative;
     justify-content: center;
@@ -203,14 +209,14 @@ export default {
     transition-property: color, background;
     max-width: 450px;
   }
-  .criado a:hover{
+  .create a:hover{
     color: rgb(0, 0, 0);
     background: #fff;
   }
   .v-card__text.text--primary{
     padding: 0px 16px 0px 16px;
   }
-  .criado{
+  .create{
     display: flex;
     justify-content: center;
   }
