@@ -2,7 +2,7 @@
   <v-app>
     <section>
       <header>
-        <a href="#" class="brand">Esporte.se</a>
+        <a href="#" class="brand" onclick="location.href = '/jogos';">Esporte.se</a>
         <div class="menu">
           <div class="btn">
             <i class="fas fa-times close-btn" />
