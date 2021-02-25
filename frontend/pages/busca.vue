@@ -17,7 +17,7 @@
         <h3 class="results">Não encontramos nenhum resultado da sua busca.</h3>
       </div>
       <v-flex d-flex :item="item" class="lista">
-        <v-flex md4 v-for="jogo in search_result" :key="jogo" class="container">
+        <v-flex md4 v-for="(jogo, index) in search_result" v-bind:key="index" class="container">
           <v-card class="card-container mx-auto" width="100%">
             <v-card-subtitle class="pb-0" @click="change_page(jogo.criador)">{{jogo.criador}}</v-card-subtitle>
             <v-card-text class="text--primary" padding="0px 16px 0px 16px;">

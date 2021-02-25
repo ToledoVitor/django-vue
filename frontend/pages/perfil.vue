@@ -1,5 +1,5 @@
 <template>
-  <v-layot class="layout">
+  <v-layout class="layout">
     <h1 class="titulo">Bem Vindo ao</h1>
     <h1 class="titulo"><span>Seu Perfil!</span></h1>
     <v-spacer />
@@ -7,7 +7,7 @@
       <h2 class="subtitulo">Confira os jogos que você <span>vai jogar</span>:</h2>
       <h3 v-if="user_participando.length == 0" class="mensagemm"> Opa, parece que você ainda não decidiu jogar nada.</h3>
       <v-flex d-flex :items="items" class="lista">
-        <v-flex md4 v-for="jogo in user_participando" :key="jogo" class="container">
+        <v-flex md4 v-for="(jogo, index) in user_participando" v-bind:key="index" class="container">
           <v-card class="card-container mx-auto" width="100%">
             <v-img class="white--text align-end" height="200px" :src="jogo.imagem">
               <v-card-title class="jogo">{{jogo.esporte}}</v-card-title>
@@ -30,7 +30,7 @@
       <h2 class="subtitulo">Confira os jogos criados <span>por você!</span></h2>
       <h3 v-if="user_jogos.length == 0" class="mensagemm"> Opa, parece que você não criou nenhum jogo ainda.</h3>
       <v-flex d-flex :items="items" class="lista">
-        <v-flex md4 v-for="jogo in user_jogos" :key="jogo" class="container">
+        <v-flex md4 v-for="(jogo, indexx) in user_jogos" v-bind:key="indexx" class="container">
           <v-card class="card-container mx-auto" width="100%">
             <v-img class="white--text align-end" height="200px" :src="jogo.imagem">
               <v-card-title>{{jogo.esporte}}</v-card-title>
@@ -54,7 +54,7 @@
     <div v-if="logged_user == null">
       <h2 class="subtitulo">Você Pecisa Fazer Login Antes de Ver Seu Perfil!</h2>
     </div>
-  </v-layot>
+  </v-layout>
 </template>
 
 <script>

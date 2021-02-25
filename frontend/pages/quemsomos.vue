@@ -1,6 +1,13 @@
 <template>
   <v-layout>
-    <container>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Responsive Sticky NavBar | For a Website</title>
+      <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    </head>
+    <div>
       <div class="content">
         <div style="background-color: transparent !important;" class="info">
           <h2 style="color: #1976d2">Quem somos?</h2>
@@ -15,7 +22,7 @@
         <a href="#"><i class="fab fa-twitter" onclick="window.location.replace(&quot;https://www.twitter.com&quot;);" /></a>
         <a href="#"><i class="fab fa-instagram" onclick="window.location.replace(&quot;https://www.instagram.com&quot;);" /></a>
       </div>
-    </container>
+    </div>
   </v-layout>
 </template>
 
@@ -50,7 +57,7 @@ export default {
   font-weight: 600;
 }
 .content .info p{
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   margin-bottom: 40px;
 }

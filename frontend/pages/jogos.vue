@@ -9,15 +9,15 @@
       <a href="#Tenis">Tênis</a>
       <a href="#Vôlei">Vôlei</a>
     </div>
-    <div v-for="item in items" :key="item">
+    <div v-for="(item, indexxx) in items" v-bind:key="indexxx">
       <a :id="item.esporte" />
       <v-card class="card-container mx-auto" width="98%">
         <v-img class="white--text align-end" height="200px" :src="item.esporte + '.jpg'">
           <v-card-title class="esporte">{{item.esporte}}</v-card-title>
         </v-img>
       </v-card>
-      <v-flex d-flex :item="item" class="lista">
-        <v-flex md4 v-for="jogo in item.jogos" :key="jogo" class="container">
+      <v-flex d-flex class="lista">
+        <v-flex md4 v-for="(jogo, indexx) in item.jogos" v-bind:key="indexx" class="container">
           <v-card class="card-container mx-auto" width="100%">
             <v-card-subtitle class="pb-0" @click="change_page(jogo.criador)">{{jogo.criador}}</v-card-subtitle>
             <v-card-text class="text--primary" padding="0px 16px 0px 16px;">
