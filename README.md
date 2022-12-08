@@ -2,25 +2,21 @@
 
 Requirements:
 - [Install docker](https://docs.docker.com/install/)
-- Learn [Python](https://docs.python.org/3/tutorial/) and [Django](https://docs.djangoproject.com/en/2.0/intro/tutorial01/)
-- Learn [vue.js](vuejs.org)
-- Learn [Nuxt.js](https://nuxtjs.org/)
-- Get familiar with [Vuetify.js](vuetifyjs.com/) components
 
 Step by step
 
 ```bash
 source dev.sh  # import useful bash functions
-devhelp  # like this one ;)
+devhelp  # shows commands ;)
 dkbuild  # builds the docker image for this project. The first time Will take a while.
-dknpminstall  # I'll explain later!
+dknpminstall  # Install npm dependencies
 dkup  # Brings up everything
 ```
 
 With `dkup` running, open another terminal
 
 ```bash
-dk bash  # starts bash inside "aplicativo" container
+dk bash  # starts bash inside container
 ./manage.py migrate  # create database tables and stuff
 ./manage.py createsuperuser  # creates an application user in the database
 ```
@@ -29,10 +25,10 @@ What is happenning:
 
 * `dev.sh` is a collection of useful bash functions for this project's development environment. You're encouraged to look inside and see how that works, and add more as the project progresses.
 * `dknpminstall` will start a docker container and run `npm install` inside to download node dependencies to the `frontend/node_modules` folder. Using docker for this means you don't need to worry about installing (and choosing version for) node/npm.
-* `dkup` uses docker-compose to start 3 containers: postgres, nginx, and aplicativo.
+* `dkup` uses docker-compose to start 3 containers: postgres, nginx, and project.
 * The dockerized postgres saves its state into `docker/dkdata`. You can delete that if you want your dev database to go kaboom.
-* Once `dkup` is running, `dk <command>` will run `<command>` inside the `aplicativo` container. So `dk bash` will get you "logged in" as root inside that container. Once inside, you need to run Django's `manage.py` commands to initialize the database properly.
-* The aplicativo container runs 3 services:
+* Once `dkup` is running, `dk <command>` will run `<command>` inside the `project` container. So `dk bash` will get you "logged in" as root inside that container. Once inside, you need to run Django's `manage.py` commands to initialize the database properly.
+* The project container runs 3 services:
  * django on port 8000
  * nuxt frontend with real APIs on port 3000
  * nuxt frontend with mock APIs on port 3001
@@ -47,7 +43,7 @@ Running everything inside docker is a quick and easy way to get started, but som
 ## Python setup
 
 Requirements:
- - Understand about python [virtualenvs](https://docs.python.org/3/tutorial/venv.html)
+ - [virtualenvs](https://docs.python.org/3/tutorial/venv.html)
  - Install [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) (not required, but recommended)
 
 Step by step
@@ -59,7 +55,7 @@ dkpgnginx  # Starts postgres and nginx inside docker
 With `dkpgnginx` running, start another terminal:
 
 ```bash
-mkvirtualenv aplicativo -p python3  # creates a python3 virtualenv
+mkvirtualenv venv -p python3  # creates a python3 virtualenv
 pip install -r requirements.txt  # install python dependencies inside virtualenv
 export DJANGO_DB_PORT=5432  # That's where our dockerized postgres is listening
 ./manage.py runserver  # starts django on port 8000
@@ -95,15 +91,15 @@ Since nginx is also running you go ahead and point your browser to http://localh
 # 3. Deploy to production
 
 Rent a linux machine on a cloud somewhere. Let's say you'll be using ubuntu on AWS.
-Install docker and nginx. Create an empty postgres database aplicativo owned by a user aplicativo.
+Install docker and nginx. Create an empty postgres database project owned by a user admin.
 
-On your remote machine, create a file ~/aplicativo.env:
+On your remote machine, create a file ~/project.env:
 
 ```
-DJANGO_DB_PASSWORD=<aplicativo's password>
+DJANGO_DB_PASSWORD=<admin's password>
 DJANGO_DB_HOST=<database_ip>
-DJANGO_DB_NAME=aplicativo
-DJANGO_DB_USER=aplicativo
+DJANGO_DB_NAME=project
+DJANGO_DB_USER=project
 DJANGO_DEBUG=0
 ```
 
@@ -111,7 +107,7 @@ Have a nginx config serving your domain like:
 
 ```
 server {
-    server_name  aplicativo.example.com;
+    server_name  project.com;
 
     location /api {
         proxy_pass http://localhost:8000/api;
@@ -120,7 +116,7 @@ server {
         proxy_pass http://localhost:8000/admin;
     }
     location /static {
-        alias /home/ubuntu/dkdata/aplicativo/static;
+        alias /home/ubuntu/dkdata/project/static;
         add_header Cache-Control public;
         add_header ETag "";
     }
@@ -132,7 +128,7 @@ server {
 }
 ```
 
-(Replace "aplicativo.example.com" with your production domain)
+(Replace "project.com" with your production domain)
 
 On your development environment, edit the `HOST_PROD` variable on `dev.sh` to make it point to your production domain, then run on terminal:
 
